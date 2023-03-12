@@ -15,7 +15,7 @@ buttonStart.addEventListener('click', () => {
   buttonStop.disabled = false;
 });
 
-buttonStop.addEventListener('click', e => {
+buttonStop.addEventListener('click', () => {
   clearInterval(changeBodyColor);
   buttonStop.disabled = true;
   buttonStart.disabled = false;
