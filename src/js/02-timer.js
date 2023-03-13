@@ -2,6 +2,11 @@ import flatpickr from 'flatpickr';
 import 'flatpickr/dist/flatpickr.min.css';
 
 const startButton = document.querySelector('[data-start]');
+const dataDays = document.querySelector('[data-days]');
+const dataHours = document.querySelector('[data-hours]');
+const dataMinutes = document.querySelector('[data-minutes]');
+const dataSeconds = document.querySelector('[data-seconds]');
+let actualDate = new Date();
 
 function convertMs(ms) {
   // Number of milliseconds per unit of time
@@ -25,34 +30,44 @@ function convertMs(ms) {
 const options = {
   enableTime: true,
   time_24hr: true,
-  defaultDate: new Date(),
+  defaultDate: actualDate,
   minuteIncrement: 1,
   onClose(selectedDates) {
-    if (selectedDates[0] > Date.now()) {
-      startButton.disabled = false;
-    } else {
-      window.alert('Please choose a date in the future');
+    if (selectedDates[0] <= actualDate) {
       startButton.disabled = true;
+      window.alert('Please choose a date in the future');
+    } else {
+      startButton.disabled = false;
+      const onClick = () => {
+        startButton.disabled = true;
+        const msTime = selectedDates[0].getTime() - actualDate.getTime();
+        const startTimerValue = convertMs(msTime);
+        setClock(startTimerValue);
+      };
+      startButton.addEventListener('click', onClick);
     }
   },
 };
 
 const calendar = flatpickr('#datetime-picker', options);
 
-// function onClick() {
-//   refs.startBtn.setAttribute('disabled', true);
+function setClock({ days, hours, minutes, seconds }) {
+  dataDays.innerText = days;
+  dataHours.innerText = hours;
+  dataMinutes.innerText = minutes;
+  dataSeconds.innerText = seconds;
+}
 
-//   const timer = setInterval(() => {
-//     const selectedDate = setFlatpickr.selectedDates[0].getTime() - Date.now();
-
-//     if (selectedDate > 0) {
-//       renderTimer(convertMs(selectedDate));
-//       refs.seconds.classList.add('zero');
-//     } else {
-//       clearInterval(timer);
-//       refs.timePicker.removeAttribute('disabled');
-//       refs.seconds.classList.remove('zero');
-//       window.alert('Time is up!');
-//     }
-//   }, 1000);
-// }
+function startClock() {
+  let updateClock = setInterval(() => {
+    for (let i = 0; i < msTime; i++) {
+      if (countTime > 0) {
+        let countTime = msTime - 1;
+        const timerValue = convertMs(countTime);
+        setClock(timerValue);
+      } else if (countTime === 0) {
+        break;
+      }
+    }
+  }, 1000);
+}
