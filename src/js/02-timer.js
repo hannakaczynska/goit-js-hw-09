@@ -35,7 +35,7 @@ const options = {
   onClose(selectedDates) {
     if (selectedDates[0] <= new Date()) {
       startButton.disabled = true;
-      window.alert('Please choose a date in the future');
+      Notiflix.Notify.failure('Please choose a date in the future');
     } else {
       startButton.disabled = false;
       const onClick = () => {
@@ -65,7 +65,6 @@ function updateClock(dateYouPicked) {
     let msTime = dateYouPicked.getTime() - Date.now();
     if (msTime > 0) {
       let timerValue = convertMs(msTime);
-      console.log(timerValue);
       setClock(timerValue);
     } else {
       clearInterval(updateClock);
@@ -74,3 +73,21 @@ function updateClock(dateYouPicked) {
     }
   }, 1000);
 }
+
+// stylowanie
+const timer = document.querySelector('.timer');
+const timerField = document.querySelectorAll('.field');
+const values = document.querySelectorAll('.value');
+
+timer.style.display = 'flex';
+timer.style.gap = '10px';
+timer.style.maxWidth = '200px';
+
+timerField.forEach(field => {
+  field.style.display = 'flex';
+  field.style.flexDirection = 'column';
+});
+
+values.forEach(value => {
+  value.style.fontSize = '50px';
+});
